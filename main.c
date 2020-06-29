@@ -51,13 +51,21 @@ int main()
 
   // binding servv addr structures
 
-  int ret = bind(tcp1fd,(struct sockaddr*)&servaddrone,sizeof(servaddrone));
+  int bindworked = bind(tcp1fd,(struct sockaddr*)&servaddrone,sizeof(servaddrone));
 
-  printf("tcp1 bind:%d\n",ret);
-  
+  if(bindworked){
+    printf("port:%d not free\n",PORTONE);
+    exit(1);
+  }
+
   listen(tcp1fd,SOMAXCONN);
-  int retwo = bind(tcp2fd,(struct sockaddr*)&servaddrtwo,sizeof(servaddrtwo));
-  printf("tcp2 bind:%d\n",retwo);
+  
+  bindworked = bind(tcp2fd,(struct sockaddr*)&servaddrtwo,sizeof(servaddrtwo));
+  if(bindworked){
+    printf("port:%d not free\n",PORTTWO);
+    exit(1);
+  }
+
   listen(tcp2fd,SOMAXCONN);
 
   // clear descriptor set
